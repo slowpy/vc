@@ -102,7 +102,7 @@ load_module ()
   int file;
 
   assert(name);
-  file = open(name, O_RDONLY);
+  file = open(name, O_RDWR);
   
   if (file == -1) {
     perror("open");
@@ -117,7 +117,7 @@ load_module ()
   // TODO: maybe need a more carefull protection value.
   // for now READ and write.
   map = (char *)mmap(NULL, sb.st_size, PROT_READ|PROT_WRITE, 
-                             MAP_PRIVATE, file, 0);
+                             MAP_SHARED, file, 0);
   if(map == MAP_FAILED) {
     perror("mmap");
     return EXIT_FAILURE;
